@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="it">
+
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    {% block assets %}
+        {% include 'AppBundle::default/assets.html.twig' %}
+
+    {% endblock %}
+            
+    <title>{% block title %}  {% endblock %}</title>
+
+</head>
+
+<body> 
+
+          
+
+                {% block header %}
+                {% include 'AppBundle::default/header.html.twig' %}
+                {% endblock %}
+
+                 {% block sidebar %}
+                    {% endblock %}
+
+                {% block content %}
+                {% endblock %}
+            
+
+            
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    {% block javascripts %}
+        {% include 'AppBundle::default/includes/scripts.html.twig' %}
+
+    {% endblock %}
+
+</body>
+
+</html>
