@@ -1,0 +1,18 @@
+{% extends "AppBundle::default/layout.html.twig"%}
+{% block title %} Registrazione Utente {% endblock %}
+
+{% block content %}
+<h1>Welcome to the ContactMessageController:contactMail page</h1>
+	{% for flash_message in app.session.flashbag.get('notice') %}
+		<div class='flash-notice'>
+			{{flash_message}}
+		</div>
+	{% endfor %}
+	{{form_start(form_di_contatto)}}
+	<div class='contenitore-name'>
+		{{form_widget(form_di_contatto)}}
+		</div>
+	{{form_widget(form_di_contatto)}}
+	{{form_end(form_di_contatto)}}
+
+{% endblock %}
