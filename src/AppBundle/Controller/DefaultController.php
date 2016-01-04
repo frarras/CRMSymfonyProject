@@ -29,25 +29,25 @@ class DefaultController extends Controller
      */
     public function indexshowAction()
     {
-        if (($this->container->get('security.context')->isGranted('ROLE_ADMIN'))) 
+        if (($this->container->get('security.context')->isGranted('ROLE_ADMIN')))
         {
             return $this->redirectToRoute('admin');
         }
 
-        $username = 'm76488';
-        $password = 'codemaster1';
+        $username = '';
+        $password = '';
 
         // Create a new mailup client
         $client = new MailUpClient($username, $password);
 
 
         $elencoUtenti = $client->getListRecipients(3, 'Subscribed');
-        
+
         foreach ($elencoUtenti->Items as $Items) {
           $nuovoUtente= new Utenti();
           $email=$Items->Email;
           $nuovoUtente->setEmail($email);
-          foreach ($Items -> Fields as $Fields) {  
+          foreach ($Items -> Fields as $Fields) {
             $description = $Fields->Description;
               switch ($description):
               case 'surname':
@@ -60,12 +60,12 @@ class DefaultController extends Controller
                   break;
               case 'phone':
                   $phone= $Fields->Value;
-                  $nuovoUtente->setPhone($phone);                  
+                  $nuovoUtente->setPhone($phone);
                   break;
               case 'Campagne':
                   $campagna= $Fields->Value;
-                  $nuovoUtente->setCampagna($campagna);                  
-                  endswitch;   
+                  $nuovoUtente->setCampagna($campagna);
+                  endswitch;
         }
 
             $em = $this->getDoctrine()->getManager();
@@ -75,29 +75,29 @@ class DefaultController extends Controller
             $em->persist($nuovoUtente);
             $em->flush();
             }
-            
+
             }
 
          $em = $this->getDoctrine()->getEntityManager();
 
          $utenti = $em->getRepository('AppBundle:Utenti')->findAll();
-        
+
         if (!$utenti) {
             throw $this->createNotFoundException('Unable to find lista Utenti .');
         }
 
         return $this->render('AppBundle::default/index-user.html.twig', array(
-            'utenti'      => $utenti, 
+            'utenti'      => $utenti,
         ));
     }
-  
+
 
     /**
      * @Route("/campagne", name="campagne_operatore")
      */
     public function campagneAction(Request $request)
     {
-        
+
             $elenco = $this->getDoctrine()->getManager()->getRepository('AppBundle:Utenti');
             $campagnaKimbo='1';
             $qbKimbo = $elenco->createQueryBuilder('u')
@@ -116,18 +116,18 @@ class DefaultController extends Controller
             ->select('COUNT(u.id)')
             ->where('u.campagna = :campagnaWind')
             ->setParameter('campagnaWind', 'wind');
-            
+
 
             $countKimbo = $qbKimbo->getQuery()->getSingleScalarResult();
             $countVodafone=$qbVodafone->getQuery()->getSingleScalarResult();
             $countWind=$qbWind->getQuery()->getSingleScalarResult();
-    
-        
+
+
         // replace this example code with whatever you need
         return $this->render('AppBundle::default/campagne.html.twig', array(
             'countKimbo' => $countKimbo ,
             'countVodafone' => $countVodafone,
-            'countWind'=>$countWind, 
+            'countWind'=>$countWind,
             ));
     }
 
@@ -137,26 +137,26 @@ class DefaultController extends Controller
      * @Route("/gestione_chiamata/{id}", name="gestione_chiamata")
      */
     public function createNuovaChiamataAction(Request $request, $id)
-    {   
+    {
         $em = $this->getDoctrine()->getManager();
 
         $utentesingolo = $em->getRepository('AppBundle:Utenti')->find($id);
-        if (!$utentesingolo) 
+        if (!$utentesingolo)
         {
             throw $this->createNotFoundException(
                 'No utente found for id '.$id);
         }
-        
-        
+
+
         $em = $this->getDoctrine()->getManager();
         $chiamata = $em->getRepository('AppBundle:Chiamate')->findByUtente($id);
-      
 
-        
+
+
         $nuovachiamata= new Chiamate();
         $iniziochiamata=$nuovachiamata->setInizioChiamata(new \DateTime('now'));
 
-        
+
         $form=$this->createFormBuilder($nuovachiamata)
             ->add('feedback', 'textarea',  array('required' => false,'attr' => array('rows' => '3', 'cols'=>'125', 'placeholder' => 'Inserire data di oggi e Feedback')))
             ->add('dataRichiamare', 'datetime', array(
@@ -164,17 +164,17 @@ class DefaultController extends Controller
                     'input'  => 'string',
                     'widget' => 'choice'
                      ))
-   
-            
+
+
             ->add('statusUtente', 'choice', array(
                     'choices'  => array(
                         'Richiamare' => 'richiamare',
                         'Confermato' => 'confermato',
                         'Non interessato' => 'non_interessato',
                     ),
-                    
+
                     'label'=>'dropdownMenu1',
-                
+
                     'choices_as_values' => true,
                     ))
             ->add('Salva', 'submit', array('attr'=> array('class'=>'btn btn-lg crm-button')))
@@ -182,21 +182,21 @@ class DefaultController extends Controller
 
             ->getForm();
 
-            
+
         $form->handleRequest($request);
 
-        if ($form->isValid()) 
-        {    
+        if ($form->isValid())
+        {
             if ($form->get('indietro')->isClicked()) {
                 return $this->redirectToRoute('index');
-       
+
         }
             $nuovachiamata->setFineChiamata(new \DateTime('now'));
             $nuovachiamata->setUtente($utentesingolo);
-            
+
 
             $operatore = $em->getRepository('AppBundle:Operatori')->find($this->getUser()->getId());
-            if (!$operatore) 
+            if (!$operatore)
             {
                 throw $this->createNotFoundException(
                     'No operatore found for id '.$id);
@@ -214,17 +214,17 @@ class DefaultController extends Controller
                             $statusCheck = $em->getRepository('AppBundle:Chiamate')->findOneByUtente($utentesingolo)->getStatusUtente();
                             $richiamareCheck = $em->getRepository('AppBundle:Chiamate')->findOneByUtente($utentesingolo)->getDataRichiamare();
                             if ($statusCheck=='confermato') {
-                                                     
+
                             } elseif ($statusCheck==null) {
                              $em = $this->getDoctrine()->getManager();
                             $em->persist($nuovachiamata);
-                            $em->flush(); 
-                            } elseif ($statusCheck=='non_interessato') { 
+                            $em->flush();
+                            } elseif ($statusCheck=='non_interessato') {
 
                             } elseif ($richiamareCheck!=null && $statusCheck!='non_interessato'&& $statusCheck!='confermato') {
                              $em = $this->getDoctrine()->getManager();
                             $em->persist($nuovachiamata);
-                            $em->flush();   
+                            $em->flush();
                           }
 
 
@@ -235,7 +235,7 @@ class DefaultController extends Controller
         array(
             'form'=>$form->createView(),
             'utente'=>$utentesingolo,
-            'chiamata'=>$chiamata ));             
+            'chiamata'=>$chiamata ));
     }
 
 
@@ -276,7 +276,7 @@ class DefaultController extends Controller
             'utente'=> $utente));
     }
 
-       
+
       /**
      * @Route("/admin", name="admin")
      */
@@ -295,7 +295,7 @@ class DefaultController extends Controller
 
              $countChiamate = $qbCountChiamate->getQuery()->getSingleScalarResult();
              $countConversioni = $qbConversioni ->getQuery()->getSingleScalarResult();
-            
+
              if ($countConversioni<= 0) {
                $tassoConversioneChiamate=0;
              } else {
@@ -320,13 +320,13 @@ class DefaultController extends Controller
           'tassoConversioneUtenti' =>$tassoConversioneUtenti,
           ));
     }
-   
+
 
      /**
      * @Route("/admin/gestione_operatori", name="gestione_operatori")
      */
       public function showAction()
-    {    
+    {
          $em = $this->getDoctrine()->getEntityManager();
 
          $operatori = $em->getRepository('AppBundle:Operatori')->findAll();
@@ -348,7 +348,7 @@ class DefaultController extends Controller
         // replace this example code with whatever you need
         return $this->render('AppBundle::default/modifica_operatore.html.twig');
     }
-        
+
 
      /**
      * @Route("/admin/gestione_contatti_admin", name="gestione_contatti_admin")
@@ -395,7 +395,7 @@ class DefaultController extends Controller
              $countConversioni = $qbConversioni ->getQuery()->getSingleScalarResult();
              $countNonInteressati = $qbCountNonInteressati ->getQuery()->getSingleScalarResult();
 
-            
+
              if ($countConversioni<= 0) {
                $tassoConversioneChiamate=0;
              } else {
@@ -445,7 +445,7 @@ class DefaultController extends Controller
      * @Route("/admin/visualizza_storico/{id}", name="visualizza_storico")
      */
     public function visualizzaStoricoAction(Request $request, $id)
-    { 
+    {
         $em = $this->getDoctrine()->getEntityManager();
          $utente = $em->getRepository('AppBundle:Utenti')->find($id);
         if (!$utente) {
@@ -469,13 +469,9 @@ class DefaultController extends Controller
         return $this->render('AppBundle::default/impostazioni.html.twig');
     }
 
-    
+
 
 
 
 
 }
-
-
-
-

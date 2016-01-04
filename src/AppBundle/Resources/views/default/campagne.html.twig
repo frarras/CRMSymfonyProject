@@ -1,0 +1,101 @@
+{% extends "AppBundle::default/layout.html.twig"%}
+{% block title %} Campagne Operatore {% endblock %}
+
+
+
+{% block sidebar %}
+{% include 'AppBundle::default/sidebar_operatore.html.twig' %}
+{% endblock %}
+
+{% block content %}
+	<div id="wrapper">
+
+       
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header text-center huge lead">Campagne in corso</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+
+            <div class="row">
+                <div class="col-lg-offset-1 col-lg-3 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="widget-logo-container">
+                            <img src="../dist/img/logo-kimbo.jpg" class="crm-widget-logo" />
+                        </div>
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-phone fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{ countKimbo }}</div>
+                                    <div>Contatti Totali</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">Visualizza Contatti</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="widget-logo-container">
+                            <img src="../dist/img/logo-vodafone.jpg" class="crm-widget-logo" />
+                        </div>
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-phone fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{ countVodafone }}</div>
+                                    <div>Contatti Totali</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">Visualizza Contatti</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-primary">
+                        <div class="widget-logo-container">
+                            <img src="../dist/img/logo-wind.jpg" class="crm-widget-logo" />
+                        </div>
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-phone fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{ countWind }}</div>
+                                    <div>Contatti Totali</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">Visualizza Contatti</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}    
