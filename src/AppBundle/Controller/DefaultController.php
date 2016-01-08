@@ -33,6 +33,27 @@ class DefaultController extends Controller
         {
             return $this->redirectToRoute('admin');
         }
+        /*
+        $matchChiamateUtenti = $joinChiamateUtenti->createQueryBuilder('c')
+        ->add('select', 'c, u')
+        ->add('from', 'AppBundle:Chiamate c')
+        ->innerJoin('AppBundle:Utenti', 'u')
+        ->where('c.utente=u.id')
+        ->getQuery()
+        ->getArrayResult();
+        print_r($matchChiamateUtenti);
+        foreach ($matchChiamateUtenti as  $matchChiamateUtente) {
+          foreach ($matchChiamateUtente as  $matchChiamateUtente) {
+                                    if($matchChiamateUtente instanceof DateTime){
+                        		 $string = $matchChiamateUtente->getTimestamp();
+                        	} else {
+                            //$inizioChiamata = strtotime($matchChiamateUtente['inizioChiamata']);
+                            $obj= $matchChiamateUtente['inizioChiamata'];
+                          }
+                          //$statusUtente =$matchChiamateUtente['statusUtente'];
+                          //echo $statusUtente;
+          }
+        }*/
 
         $username = '';
         $password = '';
@@ -79,7 +100,7 @@ class DefaultController extends Controller
             }
 
          $em = $this->getDoctrine()->getEntityManager();
-
+         $Chiamate = $em->getRepository('AppBundle:Chiamate')->findAll();
          $utenti = $em->getRepository('AppBundle:Utenti')->findAll();
 
         if (!$utenti) {
@@ -88,6 +109,7 @@ class DefaultController extends Controller
 
         return $this->render('AppBundle::default/index-user.html.twig', array(
             'utenti'      => $utenti,
+            'chiamate'    =>$Chiamate,
         ));
     }
 

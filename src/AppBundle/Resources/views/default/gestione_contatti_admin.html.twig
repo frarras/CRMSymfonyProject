@@ -64,18 +64,18 @@
                         </div>
                         <!-- /.panel-body -->
                     </div>
-                   
+
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-6 -->
             </div>
         </div>
-    {% endblock %} 
+    {% endblock %}
     {% block javascripts %}
   {% include 'AppBundle::default/includes/scripts.html.twig' %}
 
             <script>
-               
+
                 $('.dropdown-menu li').click(function() {
                     var selectedCampaign = $(this).text();
 
@@ -85,14 +85,13 @@
                             $(this).hide();
                 }
             });
-                    $(document).ready(function() 
-                { 
-                    $("#myTable").tablesorter(); 
+                    $(document).ready(function()
+                {
+                    $("#myTable").tablesorter();
                 }
-            ); 
+            );
         });
 
 
 </script>
 {% endblock %}
-   

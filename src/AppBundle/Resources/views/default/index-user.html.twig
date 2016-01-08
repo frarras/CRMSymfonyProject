@@ -35,31 +35,85 @@
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover table-striped">
+                                <table id="myTable" class="table table-bordered table-hover table-striped">
                                     <thead>
                                         <tr>
-                                            <th class="text-center">Campagna</th>
-                                            <th class="text-center">Nome</th>
-                                            <th class="text-center">Cognome</th>
-                                            <th class="text-center">Email</th>
-                                            <th class="text-center">Telefono</th>
-                                            <th class="text-center">Orario Chiamata</th>
+                                          <th class="text-center">Id</th>
+                                          <th class="header">Campagna</th>
+                                          <th class="header">Operatore</th>
+                                          <th class="header">Nome</th>
+                                          <th class="header">Cognome</th>
+                                          <th class="header">Data chiamata</th>
+                                          <th class="header">Status</th>
+                                          <th class="header">Richiamare il:</th>
+                                          <th class="text-center">Richiama</th>
                                         </tr>
                                     </thead>
                                     <tbody class="crm-table-content">
-                                     {% for utente in utenti %}
-                                        <tr itemscope itemtype="http://schema.org/Person">
-                                            <td class="campaign text-center">{{ utente.campagna }}</td>
-                                            <td itemprop="givenName" class="text-center">{{ utente.name }}</td>
-                                            <td itemprop="familyName" class="text-center">{{ utente.surname}}</td>
-                                            <td itemprop="email" class="text-center">{{ utente.email }}</td>
-                                            <td itemprop="telephone" class="text-center">{{ utente.phone }}</td>
-                                            <td class="text-center">{{ utente.phone }}</td>
-                                            <td class="text-center">
-                                            <a href="{{ path('gestione_chiamata',{'id':utente.id} ) }}"
-                                            role="button"  class="btn crm-button"> Chiama </button></td>
+                                      {% for chiamata in chiamate %}
+                                         <tr itemscope itemtype="http://schema.org/Person">
+                                           <td class="text-center">{{ chiamata.id }}</td>
+                                             <td class="campaign text-center">{{ chiamata.utente.campagna }}</td>
+                                             <td class="text-center">{{ chiamata.operatore.name }}</td>
+                                             <td itemprop="givenName" class="text-center">{{ chiamata.utente.name }}</td>
+                                             <td itemprop="familyName" class="text-center">{{ chiamata.utente.surname}}</td>
+                                             <td itemprop="data" class="text-center">{{ chiamata.inizioChiamata |date('Y-m-d H:i:s') }}</td>
+                                             <td itemprop="status" class="text-center">{{ chiamata.statusUtente }}</td>
+                                             <td itemprop="data" class="text-center">{{ chiamata.dataRichiamare |date('Y-m-d H:i:s') }}</td>
+
+                                             <td class="text-center">
+                                             <a href="{{ path('gestione_chiamata',{'id':chiamata.utente.id} ) }}"
+                                             role="button"  class="btn crm-button"> Chiama </button></td>
+                                         </tr>
+                                         {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6 -->
+            </div>
+
+
+
+
+
+            <div class="row top-buffer">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table id="myTable" class="table table-bordered table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                          <th class="text-center">Campagna</th>
+                                          <th class="text-center">Nome</th>
+                                          <th class="text-center">Cognome</th>
+                                          <th class="text-center">Email</th>
+                                          <th class="text-center">Telefono</th>
+                                          <th class="text-center">Orario Chiamata</th>
                                         </tr>
-                                        {% endfor %}
+                                    </thead>
+                                    <tbody class="crm-table-content">
+                                      {% for utente in utenti %}
+                                         <tr itemscope itemtype="http://schema.org/Person">
+                                             <td class="campaign text-center">{{ utente.campagna }}</td>
+                                             <td itemprop="givenName" class="text-center">{{ utente.name }}</td>
+                                             <td itemprop="familyName" class="text-center">{{ utente.surname}}</td>
+                                             <td itemprop="email" class="text-center">{{ utente.email }}</td>
+                                             <td itemprop="telephone" class="text-center">{{ utente.phone }}</td>
+                                             <td class="text-center">{{ utente.email }}</td>
+                                             <td class="text-center">
+                                             <a href="{{ path('gestione_chiamata',{'id':utente.id} ) }}"
+                                             role="button"  class="btn crm-button"> Chiama </button></td>
+                                         </tr>
+                                         {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
@@ -74,8 +128,11 @@
         </div>
     {% endblock %}
     {% block javascripts %}
-        {% include 'AppBundle::default/includes/scripts.html.twig' %}
+
+  {% include 'AppBundle::default/includes/scripts.html.twig' %}
+
             <script>
+
                 $('.dropdown-menu li').click(function() {
                     var selectedCampaign = $(this).text();
 
@@ -85,12 +142,13 @@
                             $(this).hide();
                 }
             });
-                    $(document).ready(function() 
-                { 
-                    $("#myTable").tablesorter(); 
+                    $(document).ready(function()
+                {
+                    $("#myTable").tablesorter();
                 }
-            ); 
+            );
         });
+
 
 </script>
 {% endblock %}

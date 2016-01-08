@@ -46,9 +46,9 @@ class Utenti
     private $email;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="phone", type="integer")
+     * @ORM\Column(name="phone", type="string")
      */
     private $phone;
 
@@ -61,20 +61,20 @@ class Utenti
 
 
     /**
-    * 
+    *
     * @ORM\OneToMany(targetEntity="Chiamate", mappedBy="utenti")
     */
     protected $chiamate;
-    
+
 
     public function __construct()
-    {   
-        
+    {
+
         $this->chiamate=new ArrayCollection();
 
     }
 
-    
+
     /**
      * Get id
      *
@@ -160,7 +160,7 @@ class Utenti
     /**
      * Set phone
      *
-     * @param integer $phone
+     * @param string $phone
      *
      * @return utenti
      */
@@ -174,7 +174,7 @@ class Utenti
     /**
      * Get phone
      *
-     * @return integer
+     * @return string
      */
     public function getPhone()
     {

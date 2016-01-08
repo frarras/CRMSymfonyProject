@@ -28,7 +28,7 @@ class Chiamate
      *
      * @ORM\Column(name="feedback", type="text", nullable=true)
      */
-    private $feedback=null;
+    private $feedback;
 
     /**
      * @var \DateTime
