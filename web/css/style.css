@@ -363,3 +363,7 @@ th.header {
     border-right: 1px solid #dad9c7;
     margin-left: -1px;
 }
+
+div.col-lg-offset-2 {
+    margin-left: 20.66666667%;
+  }

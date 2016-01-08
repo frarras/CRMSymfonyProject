@@ -34,6 +34,7 @@ class DefaultController extends Controller
             return $this->redirectToRoute('admin');
         }
         /*
+        $joinChiamateUtenti = $this->getDoctrine()->getEntityManager()->getRepository('AppBundle:Chiamate');
         $matchChiamateUtenti = $joinChiamateUtenti->createQueryBuilder('c')
         ->add('select', 'c, u')
         ->add('from', 'AppBundle:Chiamate c')
@@ -41,8 +42,7 @@ class DefaultController extends Controller
         ->where('c.utente=u.id')
         ->getQuery()
         ->getArrayResult();
-        print_r($matchChiamateUtenti);
-        foreach ($matchChiamateUtenti as  $matchChiamateUtente) {
+        /*foreach ($matchChiamateUtenti as  $matchChiamateUtente) {
           foreach ($matchChiamateUtente as  $matchChiamateUtente) {
                                     if($matchChiamateUtente instanceof DateTime){
                         		 $string = $matchChiamateUtente->getTimestamp();
@@ -55,8 +55,8 @@ class DefaultController extends Controller
           }
         }*/
 
-        $username = '';
-        $password = '';
+        $username = 'm76488';
+        $password = 'codemaster1';
 
         // Create a new mailup client
         $client = new MailUpClient($username, $password);
@@ -109,7 +109,8 @@ class DefaultController extends Controller
 
         return $this->render('AppBundle::default/index-user.html.twig', array(
             'utenti'      => $utenti,
-            'chiamate'    =>$chiamate,
+            'chiamate'    =>$Chiamate,
+            //'ma'          =>$matchChiamateUtenti,
         ));
     }
 
@@ -370,7 +371,6 @@ class DefaultController extends Controller
         // replace this example code with whatever you need
         return $this->render('AppBundle::default/modifica_operatore.html.twig');
     }
-
 
      /**
      * @Route("/admin/gestione_contatti_admin", name="gestione_contatti_admin")

@@ -52,7 +52,7 @@
                                             <td itemprop="givenName" class="text-center">{{ utente.name }}</td>
                                             <td itemprop="familyName" class="text-center">{{ utente.surname}}</td>
                                             <td itemprop="email" class="text-center">{{ utente.email }}</td>
-                                            <td itemprop="telephone" class="text-center">Da Chiamare</td>
+                                            <td itemprop="telephone" class="text-center">{{ utente.phone }}</td>
                                             <td class="text-center">
                                             <a href="{{ path('storico_chiamate',{'id':utente.id} ) }}"
                                             role="button"  class="btn crm-button"> Visualizza storico </button></td>
@@ -69,12 +69,12 @@
                 </div>
                 <!-- /.col-lg-6 -->
             </div>
-        </div>    
+        </div>
     {% endblock %}
      {% block javascripts %}
 {% include 'AppBundle::default/includes/scripts.html.twig' %}
             <script>
-               
+
                 $('.dropdown-menu li').click(function() {
                     var selectedCampaign = $(this).text();
 
@@ -84,11 +84,11 @@
                             $(this).hide();
                 }
             });
-                    $(document).ready(function() 
-                { 
-                    $("#myTable").tablesorter(); 
+                    $(document).ready(function()
+                {
+                    $("#myTable").tablesorter();
                 }
-            ); 
+            );
         });
 
 
