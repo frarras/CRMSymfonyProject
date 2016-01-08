@@ -109,7 +109,7 @@ class DefaultController extends Controller
 
         return $this->render('AppBundle::default/index-user.html.twig', array(
             'utenti'      => $utenti,
-            'chiamate'    =>$Chiamate,
+            'chiamate'    =>$chiamate,
         ));
     }
 
