@@ -23,7 +23,6 @@ class Operatori extends BaseOperatore
      */
     protected $id;
     
-
     /**
      * @var string
      *

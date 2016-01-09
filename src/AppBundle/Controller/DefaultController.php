@@ -55,8 +55,8 @@ class DefaultController extends Controller
           }
         }*/
 
-        $username = 'm76488';
-        $password = 'codemaster1';
+        $username = '';
+        $password = '';
 
         // Create a new mailup client
         $client = new MailUpClient($username, $password);
@@ -364,12 +364,40 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/admin/modifica_operatore", name="modifica_operatore")
+     * @Route("/admin/modifica_operatore/{id}", name="modifica_operatore")
      */
     public function modificaOperatoreAdminAction(Request $request)
     {
+      $id = $_GET['id'];
+        //var_dump($id);
+      $em = $this->getDoctrine()->getEntityManager();
+      $operatore = $em->getRepository('AppBundle:Operatori')->find($id);
+      $form=$this->createFormBuilder($operatore)
+          ->add('name', 'text',array( 'attr' => array('rows' => '1', 'cols'=>'50','class'=>'form-control')))
+          ->add('surname', 'text',array(  'attr' => array('rows' => '1', 'cols'=>'50','class'=>'form-control')))
+          ->add('email', 'text',array(  'attr' => array('rows' => '1', 'cols'=>'50','class'=>'form-control')))
+          ->add('phone', 'text',array(  'attr' => array('rows' => '1', 'cols'=>'50','class'=>'form-control')))
+          ->add('Salva', 'submit', array('attr'=> array('class'=>'btn btn-lg crm-button')))
+          ->add('indietro','submit',array('attr'=> array('class'=>'btn btn-lg btn-primary back-btn')))
+          ->getForm();
+
+          $form->handleRequest($request);
+
+              if ($form->get('indietro')->isClicked()) {
+                  return $this->redirectToRoute('gestione_operatori');
+                }
+                if ($form->isValid() && $form->get('Salva')->isClicked()) {
+                  $em = $this->getDoctrine()->getManager();
+                  $em->persist($operatore);
+                  $em->flush();
+                  return $this->redirectToRoute('gestione_operatori');
+                }
+
         // replace this example code with whatever you need
-        return $this->render('AppBundle::default/modifica_operatore.html.twig');
+        return $this->render('AppBundle::default/modifica_operatore.html.twig', array(
+          'operatore' =>$operatore,
+          'form'=>$form->createView(),
+        ));
     }
 
      /**
@@ -490,10 +518,6 @@ class DefaultController extends Controller
         // replace this example code with whatever you need
         return $this->render('AppBundle::default/impostazioni.html.twig');
     }
-
-
-
-
 
 
 }
