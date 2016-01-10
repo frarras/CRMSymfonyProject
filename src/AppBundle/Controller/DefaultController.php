@@ -17,6 +17,9 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Codemaster\MailUp\HttpClient\MailUpClient;
 use Codemaster\MailUp\HttpClient\HttpClient;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use PHPExcel;
+use PHPExcel_IOFactory;
 
 
 
@@ -55,8 +58,8 @@ class DefaultController extends Controller
           }
         }*/
 
-        $username = '';
-        $password = '';
+        $username = 'm76488';
+        $password = 'codemaster1';
 
         // Create a new mailup client
         $client = new MailUpClient($username, $password);
@@ -363,13 +366,13 @@ class DefaultController extends Controller
         ));
     }
 
-    /**
+     /**
      * @Route("/admin/modifica_operatore/{id}", name="modifica_operatore")
      */
-    public function modificaOperatoreAdminAction(Request $request)
+    public function modificaOperatoreAdminAction(Request $request, $id)
     {
-      $id = $_GET['id'];
-        //var_dump($id);
+      //$id = $_GET['id'];
+        var_dump($id);
       $em = $this->getDoctrine()->getEntityManager();
       $operatore = $em->getRepository('AppBundle:Operatori')->find($id);
       $form=$this->createFormBuilder($operatore)
@@ -424,6 +427,7 @@ class DefaultController extends Controller
      */
     public function datiCampagneAction(Request $request)
     {
+
         $elencoChiamate = $this->getDoctrine()->getManager()->getRepository('AppBundle:Chiamate');
         $elencoUtenti = $this->getDoctrine()->getManager()->getRepository('AppBundle:Utenti');
 
@@ -460,7 +464,7 @@ class DefaultController extends Controller
              } else {
              $tassoConversioneUtenti= ($countConversioni/$countUtenti)*100;
            }
-
+             $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
 
         // replace this example code with whatever you need
         return $this->render('AppBundle::default/dati_campagne.html.twig', array(
@@ -469,7 +473,7 @@ class DefaultController extends Controller
           'tassoConversioneChiamate'=>$tassoConversioneChiamate,
           'tassoConversioneUtenti'  =>$tassoConversioneUtenti,
           'countUtenti'             =>$countUtenti,
-          'countNonInteressati'     =>$countNonInteressati,
+          'countNonInteressati'     =>$countNonInteressati
           ));
     }
 
@@ -519,5 +523,69 @@ class DefaultController extends Controller
         return $this->render('AppBundle::default/impostazioni.html.twig');
     }
 
+    /**
+    * @Route("/excel", name="excel")
+    */
+    public function excelAction(Request $request)
+    {
+              $em = $this->getDoctrine()->getManager();
+              $elencoChiamate = $this->getDoctrine()->getManager()->getRepository('AppBundle:Chiamate')
+                ->createQueryBuilder('e')
+                ->getQuery()
+                ->getResult();
 
+
+
+              $objPHPExcel = $this->get('phpexcel')->createPHPExcelObject();
+              // Set document properties
+              $objPHPExcel->getProperties()->setCreator("fra")
+              							 ->setLastModifiedBy("fra")
+              							 ->setTitle("Office 2007 XLSX Test Document")
+              							 ->setSubject("Office 2007 XLSX Test Document")
+              							 ->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.")
+              							 ->setKeywords("office 2007 openxml php")
+              							 ->setCategory("Test result file");
+              // Add some data
+              $objPHPExcel->setActiveSheetIndex(0)
+                        ->setCellValue('A1', 'Id')
+                        ->setCellValue('B1', 'Operatore')
+                        ->setCellValue('C1', 'Utente')
+                        ->setCellValue('D1', 'StatusUtente')
+                        ->setCellValue('E1', 'DataRichiamare');
+              // Miscellaneous glyphs, UTF-8
+
+              // Rename worksheet
+              $objPHPExcel->getActiveSheet()->setTitle('Simple');
+              // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+              $objPHPExcel->setActiveSheetIndex(0);
+
+              $row = 3;
+              foreach ($elencoChiamate as $item) {
+                  $objPHPExcel->setActiveSheetIndex(0)
+                      ->setCellValue('A'.$row, $item->getId())
+                      ->setCellValue('B'.$row, $item->getOperatore())
+                      ->setCellValue('C'.$row, $item->getUtente()->getSurname())
+                      ->setCellValue('D'.$row, $item->getStatusUtente())
+                      ->setCellValue('E'.$row, $item->getDataRichiamare());
+
+                  $row++;
+              }
+
+              // Redirect output to a client’s web browser (Excel2007)
+              header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+              header('Content-Disposition: attachment;filename="01simple.xlsx"');
+              header('Cache-Control: max-age=0');
+              // If you're serving to IE 9, then the following may be needed
+              header('Cache-Control: max-age=1');
+              // If you're serving to IE over SSL, then the following may be needed
+              header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+              header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+              header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+              header ('Pragma: public'); // HTTP/1.0
+              $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+              $objWriter->save('php://output');
+              exit;
+              return $this->render('AppBundle::default/excel.html.twig', array(
+                'excel'                   =>$excelStatistiche));
+    }
 }

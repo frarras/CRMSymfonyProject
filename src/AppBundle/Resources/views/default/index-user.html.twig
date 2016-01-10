@@ -59,14 +59,14 @@
                                              <td itemprop="familyName" class="text-center">{{ chiamata.utente.surname}}</td>
                                              <td itemprop="data" class="text-center">{{ chiamata.inizioChiamata |date('Y-m-d H:i:s') }}</td>
                                              <td itemprop="status" class="text-center">{{ chiamata.statusUtente }}</td>
-                                             <td itemprop="data" class="text-center">{{ chiamata.dataRichiamare |date('Y-m-d H:i:s') }}</td>
+                                             <td itemprop="data" class="text-center">{% if chiamata.dataRichiamare is not empty %}{{ chiamata.dataRichiamare|date('Y-m-d H:i:s') }}{% endif %}</td>
 
                                              <td class="text-center">
                                              <a href="{{ path('gestione_chiamata',{'id':chiamata.utente.id} ) }}"
                                              role="button"  class="btn crm-button"> Chiama </button></td>
                                          </tr>
                                          {% endfor %}
-                                    </tbody>            
+                                    </tbody>
                                 </table>
                             </div>
                             <!-- /.table-responsive -->

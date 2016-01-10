@@ -4,6 +4,3 @@ app:
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
-
-modifica_operatore:
-    path: "/admin/modifica_operatore/{id}"
