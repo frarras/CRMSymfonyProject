@@ -6,60 +6,46 @@
 {% endblock %}
 
 {% block content %}
+{{ form_start(form) }}
 	<div id="wrapper">
+			<div id="page-wrapper">
+					<div class="row">
+							<div class="col-lg-12">
+									<h1 class="page-header text-center huge lead">Gestione Operatore ID:{{operatore.id}}</h1>
+							</div>
+							<!-- /.col-lg-12 -->
+					</div>
+					<div class="row  col-lg-offset-3 col-lg-12" itemscope itemtype="http://schema.org/Person">
+							<div class="col-md-6">
+											<div class="form-group">
+													<label for="opID">ID Operatore</label>
+													<input type="text" class="form-control" disabled value="{{operatore.id}}">
+											</div>
+													<label for="exampleName">Nome</label>
+													{{ form_start(form) }}
+													{{ form_widget(form.name) }}
+													<label for="exampleLastName">Cognome</label>
+													{{ form_widget(form.surname) }}
+											<div class="form-group">
+												<label for="exampleEmail">Email</label>
+												{{ form_widget(form.email) }}
+										</div>
+											<label for="examplePhone">Telefono</label>
+											{{ form_widget(form.phone) }}
+									<div class="row top-buffer bottom-buffer">
+											<div class="col-lg-4 col-lg-offset-3">
+												{{ form_widget(form.indietro) }}
+											</div>
+											<div class="col-lg-4">
+												{{ form_widget(form.Salva) }}
+												{{ form_end(form) }}
+											</div>
+									</div>
+								</div>
+						</div>
+				</div>
+		</div>
 
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header text-center huge lead">Gestione Operatore ID: <?= $idUtente ?></h1>
-                </div>
-                <!-- /.col-lg-12 -->
-            </div>
-
-            <div class="row" itemscope itemtype="http://schema.org/Person">
-                <div class="col-md-6">
-                    <form>
-                        <div class="form-group">
-                            <label for="opID">ID Operatore</label>
-                            <input type="text" class="form-control" id="opID" placeholder="ID" value="<?= $idUtente ?>" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleName">Nome</label>
-                            <input itemprop="givenName" type="text" class="form-control" id="exampleName" placeholder="Nome" value="<?= $faker->firstName ?>">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleLastName">Cognome</label>
-                            <input itemprop="familyName" type="text" class="form-control" id="exampleLastName" placeholder="Cognome" value="<?= $faker->lastName ?>">
-                        </div>
-                    </form>
-                </div>
-                <div class="col-md-6">
-                    <form>
-                        <div class="form-group">
-                          <label for="exampleEmail">Email</label>
-                          <input itemprop="email" type="text" class="form-control" id="exampleEmail" placeholder="Email" value="<?= $faker->email ?>">
-                      </div>
-                      <div class="form-group">
-                        <label for="examplePhone">Telefono</label>
-                        <input itemprop="telephone" type="text" class="form-control" id="examplePhone" placeholder="Telefono" value="<?= $faker->PhoneNumber ?>">
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="row top-buffer bottom-buffer">
-            <div class="col-lg-4 col-lg-offset-3">
-                <button type="button" class="btn btn-lg btn-primary back-btn">Indietro</button>
-            </div>
-            <div class="col-lg-4">
-            <a href="gestione-operatori.php"><button type="button" class="btn btn-lg crm-button">Salva</button></a>
-            </div>
-        </div>
-    </div>
-    <!-- /#page-wrapper -->
-
-</div>
-<!-- /#wrapper -->
 {% endblock %}
 
 {% block javascripts %}
@@ -70,5 +56,3 @@
     });
 </script>
     {% endblock %}
-
-

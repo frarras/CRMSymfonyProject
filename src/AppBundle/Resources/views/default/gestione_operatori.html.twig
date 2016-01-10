@@ -43,11 +43,10 @@
                                             <td itemprop="familyName" class="text-center">{{ operatore.surname }}</td>
                                             <td itemprop="email" class="text-center">{{ operatore.email }}</td>
                                             <td itemprop="telephone" class="text-center">{{ operatore.phone }}</td>
-                                             <td class="text-center"> <a href="{{ path('modifica_operatore') }}" role="button" class="btn crm-button">Modifica</button></td>
-                                            <td class="text-center"><button type="button" class="btn crm-button crm-remove-btn" data-confirm="Rimuovere l'operatore?">Rimuovi</button></td>
+                                            <td class="text-center"> <a href="{{ path('modifica_operatore',{ 'id':operatore.id } ) }}" role="button" class="btn crm-button">Modifica</button></td>
                                         </tr>
                                         {% endfor %}
-                                        
+
                                     </tbody>
                                 </table>
                             </div>
