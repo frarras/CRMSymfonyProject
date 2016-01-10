@@ -372,7 +372,7 @@ class DefaultController extends Controller
     public function modificaOperatoreAdminAction(Request $request, $id)
     {
       //$id = $_GET['id'];
-        var_dump($id);
+        //var_dump($id);
       $em = $this->getDoctrine()->getEntityManager();
       $operatore = $em->getRepository('AppBundle:Operatori')->find($id);
       $form=$this->createFormBuilder($operatore)
@@ -549,9 +549,12 @@ class DefaultController extends Controller
               $objPHPExcel->setActiveSheetIndex(0)
                         ->setCellValue('A1', 'Id')
                         ->setCellValue('B1', 'Operatore')
-                        ->setCellValue('C1', 'Utente')
-                        ->setCellValue('D1', 'StatusUtente')
-                        ->setCellValue('E1', 'DataRichiamare');
+                        ->setCellValue('C1', 'Nome contatto')
+                        ->setCellValue('D1', 'Cognome contatto')
+                        ->setCellValue('E1', 'StatusUtente')
+                        ->setCellValue('F1', 'DataRichiamare')
+                        ->setCellValue('G1', 'inizioChiamata')
+                        ->setCellValue('H1', 'fineChiamata');
               // Miscellaneous glyphs, UTF-8
 
               // Rename worksheet
@@ -564,9 +567,12 @@ class DefaultController extends Controller
                   $objPHPExcel->setActiveSheetIndex(0)
                       ->setCellValue('A'.$row, $item->getId())
                       ->setCellValue('B'.$row, $item->getOperatore())
-                      ->setCellValue('C'.$row, $item->getUtente()->getSurname())
-                      ->setCellValue('D'.$row, $item->getStatusUtente())
-                      ->setCellValue('E'.$row, $item->getDataRichiamare());
+                      ->setCellValue('C'.$row, $item->getUtente()->getName())
+                      ->setCellValue('D'.$row, $item->getUtente()->getSurname())
+                      ->setCellValue('E'.$row, $item->getStatusUtente())
+                      ->setCellValue('F'.$row, $item->getDataRichiamare())
+                      ->setCellValue('G'.$row, $item->getInizioChiamata())
+                      ->setCellValue('H'.$row, $item->getFineChiamata());
 
                   $row++;
               }
