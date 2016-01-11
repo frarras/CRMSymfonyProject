@@ -184,7 +184,7 @@ class DefaultController extends Controller
 
 
         $form=$this->createFormBuilder($nuovachiamata)
-            ->add('feedback', 'textarea',  array('required' => false,'attr' => array('rows' => '3', 'cols'=>'125', 'placeholder' => 'Inserire data di oggi e Feedback')))
+            ->add('feedback', 'textarea',  array('required' => false,'attr' => array('rows' => '3', 'cols'=>'127', 'placeholder' => 'Inserire data di oggi e Feedback')))
             ->add('dataRichiamare', 'datetime', array(
                     'required' => false,
                     'input'  => 'string',
@@ -533,8 +533,6 @@ class DefaultController extends Controller
                 ->createQueryBuilder('e')
                 ->getQuery()
                 ->getResult();
-
-
 
               $objPHPExcel = $this->get('phpexcel')->createPHPExcelObject();
               // Set document properties
