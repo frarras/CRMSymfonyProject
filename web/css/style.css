@@ -367,3 +367,9 @@ th.header {
 div.col-lg-offset-2 {
     margin-left: 20.66666667%;
   }
+
+#form_feedback {
+  border: 1px solid #6297BC;
+  width: 100%;
+  height: 60px;
+}

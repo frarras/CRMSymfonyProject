@@ -39,7 +39,7 @@
 		                    	<div class="panel-heading"></div>
 	                            <form role="form">
 	                                <div class="form-group">
-	                                	 
+
 	                                  <textarea class="form-control" rows="12" disabled>
 	                                  	{% for chiamata in chiamata %}
 	                                	{{ chiamata.feedback }}
@@ -53,7 +53,7 @@
 	            </div>
 			</div>
 				{{ form_start(form) }}
-					<div class="panel-heading text-center  lead">Feedback Chiamate</div>
+					<div class="panel-heading text-center  lead">Feedback Chiamate:</div>
 					{{ form_widget(form.feedback) }}
 					<div class="row top-buffer">
                             <div class="col-lg-12">
@@ -67,15 +67,15 @@
 
                     	Seleziona status Utente:
                     	{{ form_widget(form.statusUtente,{'attr': {'class': 'btn btn-default dropdown-toggle'}} )}}
-                    </div>	
+                    </div>
                 </div>
                     <div class="row top-buffer bottom-buffer">
-                    	
-                    		
+
+
                     	<div class="col-md-3 col-md-offset-3">
 							{{ form_widget(form.Salva) }}
 						</div>
-					 
+
 					 	<div class="col-md-3 col-md-offset-2">
 							{{ form_widget(form.indietro) }}
 						</div>
@@ -83,5 +83,5 @@
 				{{ form_end(form) }}
 		</div>
 	</div>
-</div>     
-{% endblock %}    
+</div>
+{% endblock %}
